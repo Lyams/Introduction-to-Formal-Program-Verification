@@ -29,3 +29,10 @@ Definition negb :=
 Check negb.
 Compute negb false.
 Compute negb true.
+
+Eval cbv delta in negb true.
+Eval cbv beta delta in negb true.
+Eval cbv beta delta iota in negb true.
+Variable c : bool.
+Compute idb c.
+Compute negb c.
