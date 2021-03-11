@@ -54,3 +54,33 @@ Check S (S (S O)).
 
 Definition succn := S.
 Compute succn (S (S O)).
+
+Definition predn (n : nat) : nat :=
+  match n with
+  | S x => x
+  | O => O 
+  end.
+
+Compute predn (S (S O)).
+Compute predn  O.
+
+
+Fixpoint addn (n m : nat) {struct n} : nat :=
+  match n with
+  | O => m
+  | S n' => S (addn n' m)
+  end.
+
+Compute addn (S (S O)) (S (S O)).
+
+Fixpoint addn_idiomatic (n m : nat) : nat :=
+  if n is S n' then S (addn_idiomatic n' m) else m.
+Compute addn_idiomatic (S (S O)) (S (S O)).
+
+Definition add_no_sugar :=
+  fix addn (n m : nat) {struct n} : nat :=
+    match n with
+    | O => m
+    | S n' => S (addn n' m)
+    end.
+Compute add_no_sugar (S (S O)) O.
