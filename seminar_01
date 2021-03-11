@@ -1,0 +1,31 @@
+From mathcomp Require Import ssreflect.
+
+Module My.
+
+Inductive bool : Type :=
+| true
+| false.
+
+Check false : bool.
+Check false.
+Check (bool -> bool) : Type.
+Check (fun b : bool => b).
+Check fun b => b.
+Check (fun b =>b) true.
+Check fun (f : bool -> bool) => f true.
+
+Definition idb := fun b : bool => b.
+
+Check idb.
+Check (fun (f : bool -> bool) => f true) idb.
+Compute idb false.
+Fail Check (fun (f: bool -> bool) => f true) false.
+Definition negb :=
+ fun (b: bool) =>
+    match b with
+    | true => false
+    | false => true
+    end.
+Check negb.
+Compute negb false.
+Compute negb true.
