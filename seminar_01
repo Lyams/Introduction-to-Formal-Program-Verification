@@ -36,3 +36,21 @@ Eval cbv beta delta iota in negb true.
 Variable c : bool.
 Compute idb c.
 Compute negb c.
+Definition anbc (b c : bool) : bool :=
+  match c with
+  | false => false
+  | true => b
+  end.
+
+
+Inductive nat : Type :=
+  | O
+  | S of nat.
+Print nat.
+Check O.
+Check S O.
+Check S (S O).
+Check S (S (S O)).
+
+Definition succn := S.
+Compute succn (S (S O)).
