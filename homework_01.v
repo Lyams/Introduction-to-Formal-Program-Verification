@@ -202,5 +202,8 @@ Fixpoint divn (m n : nat) {struct m} : nat :=
 
 Check eq_refl : divn (S(S(S(S(O))))) (S(S O)) = S(S O).
 Check eq_refl : divn (S(S(S(S(S(S(O))))))) (S(S O)) = S(S(S O)).
- 
+
+Variable a b : nat.
+Eval cbv delta in (addn a b).
+Eval cbv in (addn a b).
 End My.
