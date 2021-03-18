@@ -166,6 +166,7 @@ Compute leq (S(S(S O)))(S(S O)).
 
 
 (*| ---------------------------------------------------------------------------- |*)
+Definition lt (a b : nat) : bool := negb (eqn (subn b a) O).
 
 
 (*| EXTRA problems: feel free to skip these. If you need to get credit for this
@@ -174,5 +175,16 @@ class: extra exercises do not influence your grade negatively if you skip them.
 
 (*| Ea: implement division (`divn`) on natural numbers and write some unit tests
 for it. |*)
+Fixpoint subn'' (a b : nat) : nat :=
+  if a is S a' then (if b is S b' then subn'' a' b' else a) else a.
 
+Fixpoint subn' ( a b : nat) : nat :=
+  match a with 
+  | S a' => if b is S b' then subn' a' b' else a
+  | O => a
+  end.
+Fixpoint divn (m n : nat) {struct m} : nat :=
+  if n is S n' then    if subn'' m n' is S m' then S (divn m' n) else O  else O.
+Check eq_refl : divn (S(S(S(S(O))))) (S(S O)) = S(S O).
+ 
 End My.
