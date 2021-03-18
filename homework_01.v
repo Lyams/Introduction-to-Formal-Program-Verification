@@ -185,6 +185,8 @@ Fixpoint subn' ( a b : nat) : nat :=
   end.
 Fixpoint divn (m n : nat) {struct m} : nat :=
   if n is S n' then    if subn'' m n' is S m' then S (divn m' n) else O  else O.
+
 Check eq_refl : divn (S(S(S(S(O))))) (S(S O)) = S(S O).
+Check eq_refl : divn (S(S(S(S(S(S(O))))))) (S(S O)) = S(S(S O)).
  
 End My.
