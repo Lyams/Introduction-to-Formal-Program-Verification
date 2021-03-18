@@ -99,3 +99,11 @@ About S.
 Check 42.
 
 Check S(S O).
+
+Set Printing All.
+Check 5 + 5.
+Unset Printing All.
+Locate ".+".
+Locate ".+1".
+Variable x : nat.
+Check x.+1.
