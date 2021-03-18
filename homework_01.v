@@ -50,12 +50,16 @@ Compute addb false true.
 (*| 1c. Define `eqb` function implementing equality on booleans, i.e. `eqb b c`
 must return `true` if and only iff `b` is equal to `c`. Add unit tests. |*)
 
-Definition eqb (b c : bool) : bool := ...
-
-Compute eqb ...
-...
-Compute eqb ...
-
+Definition eqb (b c : bool) : bool := 
+    match b with
+    | true => c
+    | false => negb(c)
+    end.
+Check eqb.
+Compute eqb true true.
+Compute eqb false false.
+Compute eqb true false.
+Compute eqb false true.
 
 (** * Exercise 2 : arithmetic *)
 
