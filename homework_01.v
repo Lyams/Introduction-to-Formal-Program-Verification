@@ -20,11 +20,17 @@ Definition negb :=
 (*| 1a. Define `orb` function implementing boolean disjunction and test it
 _thoroughly_ using the command `Compute`. |*)
 
-Definition orb (b c : bool) : bool := ...
+Definition orb (b c : bool) : bool := 
+  match b with
+  | false => c
+  | true => true
+  end.
 
-Compute orb ...
-...
-Compute orb ...
+Compute orb true false.
+Compute orb false true.
+Compute orb false false.
+Compute orb true true.
+
 
 (*| 1b. Define `addb` function implementing _exclusive_ boolean disjunction.
 Try to come up with more than one definition (try to make it interesting
