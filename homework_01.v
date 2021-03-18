@@ -89,12 +89,19 @@ Compute dec2 (S( S O)).
 natural numbers `m` and `n` and returns the result of subtracting `n` from `m`.
 E.g. `subn 5 3` returns `2`. Write some unit tests. |*)
 
-Fixpoint subn (m n : nat) : nat := ...
-
-Compute subn ...
-...
-Compute subn ...
-
+Fixpoint subn (m n : nat) {struct n} : nat :=
+    if m is (S m') then
+    match n with
+    | O => m
+    | (S n') => subn m' n'
+    end
+    else O.
+Check subn.
+Compute subn (S O) (S O).
+Compute subn (S(S(S O))) (S O).
+Compute subn (S(S(S(S O)))) (S(S(S O))).
+Compute subn O (S O).
+Compute subn (S(S(S(S O)))) (S O).
 (*| 2c. Define an `muln` function of type `nat -> nat -> nat` which takes two
 natural numbers `m` and `n` and returns the result of their multiplication.
 Write some unit tests. |*)
