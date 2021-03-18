@@ -25,7 +25,7 @@ Definition orb (b c : bool) : bool :=
   | false => c
   | true => true
   end.
-
+Check orb.
 Compute orb true false.
 Compute orb false true.
 Compute orb false false.
@@ -37,8 +37,16 @@ Try to come up with more than one definition (try to make it interesting
 and don't just swap the variables) and explore its reduction behavior
 in the presence of symbolic variables. |*)
 
-Definition addb (b c : bool) : bool := ...
-
+Definition addb (b c : bool) : bool :=
+    match b with
+    | false => c
+    | true => negb(c)
+    end.
+Check addb.
+Compute addb true false.
+Compute addb false false.
+Compute addb true true.
+Compute addb false true.
 (*| 1c. Define `eqb` function implementing equality on booleans, i.e. `eqb b c`
 must return `true` if and only iff `b` is equal to `c`. Add unit tests. |*)
 
