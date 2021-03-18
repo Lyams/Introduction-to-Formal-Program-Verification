@@ -152,11 +152,17 @@ type `nat -> nat -> bool`. `leq m n` returns `true` if and only if `m` is less
 than or equal to `n`. Your solution must not use recursion but you may reuse any
 of the functions you defined in this module so far. *)
 
-Definition leq (m n : nat) : bool := ...
-
-Compute leq ...
-...
-Compute leq ...
+Fixpoint leq (m n : nat) : bool := 
+    if m is (S m') then if n is (S n')
+                          then leq m' n'
+                          else false
+     else true.
+Check leq.
+Compute leq O O.
+Compute leq (S O) (S O).
+Compute leq (S(S(S O))) (S(S(S O))).
+Compute leq O (S(S(S O))).
+Compute leq (S(S(S O)))(S(S O)).
 
 
 (*| ---------------------------------------------------------------------------- |*)
