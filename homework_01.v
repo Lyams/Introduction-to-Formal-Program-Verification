@@ -72,11 +72,17 @@ Inductive nat : Type :=
 number and decrements it by 2, e.g. for the number `5` it must return `3`. Write
 some unit tests for `dec2`. What should it return for `1` and `0`? |*)
 
-Definition dec2 (n : nat) : nat := ...
-
-Compute dec2 ...
-...
-Compute dec2 ...
+Definition dec2 (n : nat) : nat := 
+    match n with
+    | O => O
+    | S O => O
+    | S (S n') => n'
+    end.
+Check dec2.
+Compute dec2 (S(S (S (S (S (S (S O))))))).
+Compute dec2 (S O).
+Compute dec2 O.
+Compute dec2 (S( S O)).
 
 
 (*| 2b. Define `subn` function of type `nat -> nat -> nat` which takes two
