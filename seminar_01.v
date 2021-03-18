@@ -84,3 +84,18 @@ Definition add_no_sugar :=
     | S n' => S (addn n' m)
     end.
 Compute add_no_sugar (S (S O)) O.
+
+
+End My.
+Check My.nat.
+Check My.addn.
+
+From mathcomp Require Import ssrbool ssrnat.
+Print addb.
+
+About nat.
+About S.
+
+Check 42.
+
+Check S(S O).
