@@ -4,6 +4,8 @@ From mathcomp Require Import ssreflect.
 
 Module My.
 
+Local Open Scope nat_scope.
+
 Inductive bool : Type :=
 | true
 | false.
@@ -106,21 +108,44 @@ Compute subn (S(S(S(S O)))) (S O).
 natural numbers `m` and `n` and returns the result of their multiplication.
 Write some unit tests. |*)
 
-Fixpoint muln (m n : nat) : nat := ...
+Fixpoint addn (n m : nat) {struct n} : nat :=
+    match n with
+    | O => m
+    | S n' => S (addn n' m)
+    end.
+Compute addn (S(S(S(O)))) (S(S(S(S(O))))).
 
-Compute muln ...
-...
-Compute muln ...
+Fixpoint muln (m n : nat) {struct m}  : nat :=
+    match m with
+    | O => O
+    | S p => addn n (p * n)
+    end
+where "p * n" := (muln p n ) : nat_scope.
+(**     if m is (S m') then addn n (mult m' n)
+     else O. *)
+Check muln.
+Compute muln O O.
+Compute muln (S(S(S(S(S O))))) (S(S(O))).
+Compute muln (S O) O.
+Compute muln O (S O).
+Compute muln (S O) (S O).
+Compute muln (S O) (S(S(S O))).
 
 (** 2d. Implement equality comparison function `eqn` on natural numbers of
 type `nat -> nat -> bool`. It returns true if and only if the input numbers are
 equal. *)
 
-Fixpoint eqn (m n : nat) : bool := ...
-
-Compute eqn ...
-...
-Compute eqn ...
+Fixpoint eqn (m n : nat) : bool := 
+    if m is (S m') then if n is (S n')
+                          then eqn m' n'
+                          else false
+      else if n is O then true else false.
+Check eqn.
+Compute eqn O O.
+Compute eqn (S O) (S O).
+Compute eqn (S(S(S O))) (S(S(S O))).
+Compute eqn O (S(S(S O))).
+Compute eqn (S(S(S O)))(S(S O)).
 
 (** 2e. Implement less-or-equal comparison function `leq` on natural numbers of
 type `nat -> nat -> bool`. `leq m n` returns `true` if and only if `m` is less
