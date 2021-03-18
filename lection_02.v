@@ -101,3 +101,21 @@ Definition sap {A B : Type} : A * B -> B * A :=
     match p with
     | (a,b) => (b,a)
     end.
+
+Inductive sum (A B :Type) : Type :=
+  | inl of A
+  | inr of B.
+
+Notation "A + B" :=
+  (sum A B) (at level 50, left associativity)
+  : type_scope.
+
+Definition swap_sum {A B : Type} :
+  A + B -> B + A :=
+  fun s =>
+    match s with
+    | inl a => inr B a
+    | inr b => inl A b
+    end.
+
+End MyNamespace.
