@@ -121,15 +121,29 @@ Fixpoint muln (m n : nat) {struct m}  : nat :=
     | S p => addn n (p * n)
     end
 where "p * n" := (muln p n ) : nat_scope.
+
+Fixpoint muln' (m n : nat) : nat :=
+  match m with
+    | O => m
+    | S m' => (fix addn m n := 
+    if m is S m' then S (addn m' n) else n) (muln' m' n) n  end.
+
+Fixpoint muln'' (m n : nat) : nat :=
+  match m, n with
+  | _, O => O
+  | _, S n' => addn m (muln'' m n')
+  end.
+Check eq_refl : muln'' (S(S(S(S(S O))))) (S(S(O))) = (S(S(S(S(S(S(S(S(S(S O)))))))))).
+
 (**     if m is (S m') then addn n (mult m' n)
      else O. *)
 Check muln.
 Compute muln O O.
 Compute muln (S(S(S(S(S O))))) (S(S(O))).
 Compute muln (S O) O.
-Compute muln O (S O).
+Compute muln'' O (S O).
 Compute muln (S O) (S O).
-Compute muln (S O) (S(S(S O))).
+Compute muln' (S O) (S(S(S O))).
 
 (** 2d. Implement equality comparison function `eqn` on natural numbers of
 type `nat -> nat -> bool`. It returns true if and only if the input numbers are
