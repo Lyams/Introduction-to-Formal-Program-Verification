@@ -1,4 +1,4 @@
-From mathcomp Require Import ssreflect ssrfun ssrbool ssrnat.
+From mathcomp Require Import ssreflect ssrfun ssrbool ssrnat eqtype.
 
 Section PropositionalLogic.
 

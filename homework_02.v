@@ -16,7 +16,7 @@ reuse it later. *)
 constants (natural numbers) and arbitrarily nested additions, subtractions and
 multiplications *)
 Inductive expr : Type :=
-| Const of nat
+| Const of nat (* Почему не может быть expr?*)
 | Plus of expr & expr
 | Minus of expr & expr
 | Mult of expr & expr
@@ -76,8 +76,12 @@ Check [[
 Basically, the semantics of the expression language should be the same as
 the corresponding Coq functions `addn`, `subn`, `muln`. *)
 Fixpoint eval (e : expr) : nat :=
-  ...
-
+  match e with
+    | Const x   => x
+    | Mult x y  => (eval x) * (eval y)
+    | Plus x y  => (eval x) + (eval y)
+    | Minus x y => (eval x) - (eval y)
+  end.
 (** Some unit tests *)
 (** We haven't discussed in depth what `erefl` means yet.
     But for now, let's just assume if the following lines
