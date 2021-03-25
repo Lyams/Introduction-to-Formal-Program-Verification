@@ -1,3 +1,5 @@
+From mathcomp Require Import ssreflect ssrfun ssrbool ssrnat.
+
 Section PropositionalLogic.
 
 Variables A B C : Prop.
@@ -15,23 +17,27 @@ Definition and1 :
   A /\ B -> A
 := fun '(conj a b) => a.
 
-(*
+
 Definition impl_trans :
   (A -> B) -> (B -> C) -> A -> C
 := catcomp.
 
 Definition HilbertS :
   (A -> B -> C) -> (A -> B) -> A -> C
-:=
+:= fun abc ab a => abc a (ab a : B).
 
 Definition DNE_triple_neg :
   ~ ~ ~ A -> ~ A
-:=
+:= fun nnna a => nnna (fun na => na a).
 
 Definition or_comm :
   A \/ B -> B \/ A
-:=
-*)
+:= fun x =>
+  match x with
+  | or_introl a => or_intror a
+  | or_intror b => or_introl b
+  end.
+
 End PropositionalLogic.
 
 
@@ -60,17 +66,21 @@ Definition forall_disj_comm :
     | or_introl px => or_intror px
     | or_intror qx => or_introl qx
     end.
-  
+
 Print ex.
 Definition not_exists_forall_not :
   ~(exists x, P x) -> forall x, ~P x
 :=  fun nex => 
       fun x px => nex (ex_intro P x  px).
+Print not_exists_forall_not.
 
 Definition exists_forall_not_ :
-(exists x, A -> P x) -> (forall x, ~P x) -> ~A.
+(exists x, A -> P x) -> (forall x, ~P x) -> ~A
+:= fun '(ex_intro x apx) => fun fx' a => fx' x (apx a).
+
 
 (** Extra exercise (feel free to skip): the dual Frobenius rule *)
+(*
 Definition LEM :=
   forall P : Prop, P \/ ~ P.
 
@@ -81,7 +91,7 @@ Definition Frobenius2 :=
 Definition lem_iff_Frobenius2 :
   LEM <-> Frobenius2
 :=
-
+*)
 End Quantifiers.
 
 
@@ -89,23 +99,37 @@ End Quantifiers.
 
 
 Section Equality.
-
+(*
 Definition iff_is_if_and_only_if :
   forall a b : bool, (a ==> b) && (b ==> a) = (a == b)
-:=
+:= 
 
 Definition negbNE :
   forall b : bool, ~~ ~~ b = true -> b = true
 :=
-
+*)
 (** exercise: *)
 Definition f_congr {A B} (f : A -> B) (x y : A) :
   x = y  ->  f x = f y
-:=
+:= fun pf =>
+  match pf in (_ = r) return (f x = f r) with
+  | eq_refl => eq_refl
+  end.
 
-Definition f_congr' A B (f g : A -> B) (x y : A) :
+Definition f_congr' {A B} (f : A -> B) {x y : A} :
+  x = y  ->  f x = f y
+:= fun pf =>
+  match pf in (_ = r) return (f x = f r) with
+  | eq_refl => eq_refl
+  end.
+
+Definition f_congr'' A B (f g : A -> B) (x y : A) :
   f = g  ->  x = y  ->  f x = g y
-:=
+:= fun pfg =>
+      match pfg in (_ = g') return (x = y -> f x = g' y) with
+      | eq_refl => f_congr' f
+       
+      end.
 
 (** extra exercise *)
 Definition congId A {x y : A} (p : x = y) :
