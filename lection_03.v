@@ -172,6 +172,10 @@ Definition eq_sym A (x y : A) :
      | eq_refl => eq_refl x
      end.
 
+About eq_sym.
+Check eq_refl 42.
+Check eq_sym (eq_refl (40 + 2)).
+
 Definition eq_trans A (x y z : A) :
   x = y -> y = z -> x = z
 :=
