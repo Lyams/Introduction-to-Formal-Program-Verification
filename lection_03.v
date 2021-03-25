@@ -118,3 +118,69 @@ Definition exists_not_forall A (P : A -> Prop) :
       | ex_intro x px => all_npx x px
       end.
 
+
+Definition curry_dep A (P : A -> Prop) Q :
+  ((exists x, P x) -> Q) -> (forall x, P x -> Q)
+:=
+  fun f : (exists x, P x) -> Q =>
+    fun x : A =>
+      fun px : P x =>
+        f (ex_intro P x px).
+
+Inductive eq (A : Type) (x : A) : A -> Prop :=
+  | eq_refl : eq x x.
+
+Notation "x = y" := (eq x y) : type_scope.
+
+Arguments eq_refl {A x}, {A} x.
+
+Check eq_refl 0 : 0 = 0.
+Check eq_refl : 0 = 0.
+Check eq_refl : (fun _ => 0) 42 = 0.
+Check eq_refl : 2 + 2 = 4.
+
+Fail Check eq_refl : 0 = 1.
+Variables A B : Type.
+Variable f : A -> B.
+
+Check eq_refl : f = f.
+
+
+Check eq_refl : (fun x => x) = (fun y => y).
+
+Check eq_refl : (fun x => f x) = f.
+
+Definition eq_reflexive A (x : A) :
+  x = x
+:=
+  eq_refl x.
+
+Definition eq_sym_unannotated A (x y : A) :
+  x = y -> y = x
+:= fun (pf : x = y) =>
+   (match pf with
+    | eq_refl => (eq_refl x : x = x)
+    end) : y = x. 
+
+Definition eq_sym A (x y : A) :
+  x = y -> y = x
+:= fun (pf  : x = y) =>
+     match
+       pf in (_ = b)
+       return (b = x)
+     with
+     | eq_refl => eq_refl x
+     end.
+
+Definition eq_trans A (x y z : A) :
+  x = y -> y = z -> x = z
+:=
+  fun pf_xy : x = y =>
+    match
+      pf_xy in (_ = b)
+      return (b = z -> x = z)
+    with
+    | eq_refl => fun (pf_xz : x = z) => pf_xz
+    end.
+
+End My.
