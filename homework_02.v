@@ -189,6 +189,8 @@ Check erefl :
   - check that `compile` is an injective function
 *)
 
+About option.
+Print option.
 
 (** Optional exercise: decompiler *)
 
@@ -196,8 +198,20 @@ Check erefl :
 expression *)
 (* Hint: you might want to introduce a recursive helper function `decompile'` to
  reuse it for `decompile`. *)
+Fixpoint helpe (p : prog) (e : seq expr): seq expr :=
+  match p, e with
+  | (Push x :: xs), _ => helpe xs (Const x :: e)
+  | (Add :: xs), (a::b::bx)  => helpe xs (Plus a b :: e)
+  | (Sub :: xs), (a::b::bs) => helpe xs (Minus a b :: e)
+  | (Mul :: xs), (a::b::bx)  => helpe xs (Mult a b :: e)
+  | _, _ => e
+  end.
+
 Definition decompile (p : prog) : option expr :=
-  ...
+  match helpe p [::] with
+  | [::e] => Some e
+  | _ => None
+  end.
 
 (** Unit tests *)
 Check erefl :
