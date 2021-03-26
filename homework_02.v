@@ -16,10 +16,10 @@ reuse it later. *)
 constants (natural numbers) and arbitrarily nested additions, subtractions and
 multiplications *)
 Inductive expr : Type :=
-| Const of nat (* Почему не может быть expr?*)
-| Plus of expr & expr
-| Minus of expr & expr
-| Mult of expr & expr
+  | Const of nat (* Почему не может быть expr?*)
+  | Plus of expr & expr
+  | Minus of expr & expr
+  | Mult of expr & expr
 .
 
 (** Let us define a special notation for our language.
@@ -39,14 +39,24 @@ Notation "x" :=
   (Const x)
     (in custom expr at level 0, x bigint).
 
-Notation "( x )" := x (in custom expr, x at level 2).
-Notation "x + y" := (Plus x y) (in custom expr at level 2, left associativity).
+Notation "( x )" :=
+  x
+    (in custom expr, x at level 2).
+
+Notation "x + y" :=
+  (Plus x y)
+    (in custom expr at level 2, left associativity).
 
 (* Define notations for subtraction and multiplication.
    Hint: lower level means higher priority.
    Your notations should start with `in custom expr` as above. *)
-Notation "x - y" := (Minus x y) (in custom expr at level 2, left associativity).
-Notation "x * y" := (Mult x y) (in custom expr at level 1, left associativity).
+Notation "x - y" :=
+  (Minus x y)
+    (in custom expr at level 2, left associativity).
+
+Notation "x * y" :=
+  (Mult x y)
+    (in custom expr at level 1, left associativity).
 
 (** Here is how we write Plus (Const 0) (Plus (Const 1) (Const 2)) *)
 Check [[
@@ -142,21 +152,27 @@ And the type of stacks like so:
 (** The [run] function is an interpreter for the stack language. It takes a
  program (list of instructions) and the current stack, and processes the program
  instruction-by-instruction, returning the final stack. *)
-Inductive instr := Push (n : nat) | Add | Sub | Mul.
-Notation " << n >> " := (Push n) (at level 0, n constr).
+Inductive instr := 
+  Push (n : nat) | Add | Sub | Mul.
+
+Notation " << n >> " :=
+  (Push n)
+    (at level 0, n constr).
+
 Inductive list (A : Type) : Type :=
   | nil
   | cons of A & list A.
+
 Definition prog := seq instr.
 Definition stack := seq nat.
 
 Fixpoint run (p : prog) (s : stack) : stack :=
   match p, s with
-  | (Push n :: nx), _ => run nx (n :: s)
+  | (Push n :: nx), _       => run nx (n :: s)
   | (Add :: nx), (x::y::ys) => run nx ((x + y) :: ys)
   | (Mul :: nx), (x::y::ys) => run nx ((x * y) :: ys)
   | (Sub :: nx), (x::y::ys) => run nx ((x - y) :: ys)
-  | _, _ => s
+  | _, _                    => s
   end.
 
 (** Unit tests: *)
@@ -202,9 +218,9 @@ Fixpoint helpe (p : prog) (e : seq expr): seq expr :=
   match p, e with
   | (Push x :: xs), _ => helpe xs (Const x :: e)
   | (Add :: xs), (a::b::bx)  => helpe xs (Plus a b :: bx)
-  | (Sub :: xs), (a::b::bx) => helpe xs (Minus a b :: bx)
+  | (Sub :: xs), (a::b::bx)  => helpe xs (Minus a b :: bx)
   | (Mul :: xs), (a::b::bx)  => helpe xs (Mult a b :: bx)
-  | _, _ => e
+  | _, _                     => e
   end.
 
 Fixpoint helpe'' (e : seq expr) (p : prog) : (seq expr) :=
@@ -213,21 +229,18 @@ Fixpoint helpe'' (e : seq expr) (p : prog) : (seq expr) :=
                   | Add :: xs => helpe'' (Plus a b :: bx) xs
                   | Sub :: xs => helpe'' (Minus a b :: bx) xs
                   | Mul :: xs => helpe'' (Mult a b :: bx) xs
-                  | _ => if p is (Push x :: xs) then helpe'' (Const x :: e) xs else e
+                  | _         => if p is (Push x :: xs)
+                                  then helpe'' (Const x :: e) xs else e
                   end
   | _ => if p is (Push x :: xs) then helpe'' (Const x :: e) xs else e
   end.
 
-(*Fixpoint helpe' (p : prog) (e : seq expr) : (seq expr) :=
-  match p with
-  | Add :: xs => if e is (a:b::bs)
-  end.*)
 
 
 Definition decompile (p : prog) : option expr :=
   match helpe p [::] with
   | [:: e] => Some e
-  | _ => None
+  | _      => None
   end.
 
 Compute (decompile [:: <<2>>; <<1>>; Add ]).
@@ -239,7 +252,7 @@ Check erefl :
 
 Check erefl :
   (decompile [:: <<2>>; <<1>>; Add ]) = some [[ 1 + 2 ]].
-Compute  decompile (compile [[2 + 3 * 5]]).
+Compute decompile (compile [[2 + 3 * 5]]).
 
 Check erefl :
   decompile (compile [[2 + 3 * 5]]) = some [[2 + 3 * 5]].
