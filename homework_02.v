@@ -161,9 +161,9 @@ Fixpoint run (p : prog) (s : stack) : stack :=
 
 (** Unit tests: *)
 Check erefl :
-  run [:: ... stack-program ...] [::] = [:: ... stack-of-numbers ...].
-...
-
+  run [:: Push 2 ; Add ; Mul] [::1;2] = [:: 6].
+Check erefl :
+  run [:: Push 2 ; Add ; Mul; Push 9; Sub] [::1;2] = [:: 3].
 
 (** Now, implement a compiler from "high-level" expressions to "low-level" stack
 programs and do some unit tests. *)
