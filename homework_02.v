@@ -209,13 +209,15 @@ Fixpoint helpe (p : prog) (e : seq expr): seq expr :=
 
 Definition decompile (p : prog) : option expr :=
   match helpe p [::] with
-  | [::e] => Some e
+  | [:: e] => Some e
   | _ => None
   end.
 
+Compute (decompile [:: <<2>>; <<1>>; Add ]).
+
 (** Unit tests *)
 Check erefl :
-  decompile [:: ... stack-program ] = some [[ expression ]].
+  decompile [:: Push 2; Push 4; Add ] = some [[ 2 + 4 ]].
 ...
 
 (* Some ideas for unit tests:
