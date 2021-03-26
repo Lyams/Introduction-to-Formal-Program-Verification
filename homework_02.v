@@ -91,7 +91,6 @@ Check erefl : eval [[ 0 + (2 - 1) ]] = 1.
 Check erefl : eval [[ (0 + 1) + 2 ]] = 3.
 Check erefl : eval [[ 2 + 2 * 2 ]] = 6.
 Check erefl : eval [[ (2 + 2) * 2 ]] = 8.
-...
 
 
 (** * Compiling arithmetic expressions to a stack language *)
@@ -106,7 +105,6 @@ a stack of natural numbers. There are instructions for pushing constants onto
 the stack and for adding/subtracting/muliplying the top two elements of the
 stack, popping them off the stack, and pushing the result onto the stack. *)
 
-Inductive instr := Push (n : nat) | Add | Sub | Mul.
 
 (*
 Feel free to define your own notations for the stack operations
@@ -144,8 +142,22 @@ And the type of stacks like so:
 (** The [run] function is an interpreter for the stack language. It takes a
  program (list of instructions) and the current stack, and processes the program
  instruction-by-instruction, returning the final stack. *)
+Inductive instr := Push (n : nat) | Add | Sub | Mul.
+Notation " << n >> " := (Push n) (at level 0, n constr).
+Inductive list (A : Type) : Type :=
+  | nil
+  | cons of A & list A.
+Definition prog := seq instr.
+Definition stack := seq nat.
+
 Fixpoint run (p : prog) (s : stack) : stack :=
-  ...
+  match p, s with
+  | (Push n :: nx), _ => run nx (n :: s)
+  | (Add :: nx), (x::y::ys) => run nx ((x + y) :: ys)
+  | (Mul :: nx), (x::y::ys) => run nx ((x * y) :: ys)
+  | (Sub :: nx), (x::y::ys) => run nx ((x - y) :: ys)
+  | _, _ => s
+  end.
 
 (** Unit tests: *)
 Check erefl :
