@@ -164,16 +164,26 @@ Check erefl :
   run [:: Push 2 ; Add ; Mul] [::1;2] = [:: 6].
 Check erefl :
   run [:: Push 2 ; Add ; Mul; Push 9; Sub] [::1;2] = [:: 3].
+Compute run [:: <<2>>; <<3>>; <<1>>; Add; Mul].
 
 (** Now, implement a compiler from "high-level" expressions to "low-level" stack
 programs and do some unit tests. *)
 Fixpoint compile (e : expr) : prog :=
-  ...
+  match e with
+  | Const x   => [:: << x >>]
+  | Plus x y  => compile x ++ compile y ++ [::Add]
+  | Minus x y => compile x ++ compile y ++ [::Sub]
+  | Mult x y  => compile x ++ compile y ++ [::Mul]
+  end.
 
 (** Do some unit tests *)
+Fail Check erefl :
+  compile  [[ 2 + 3 ]] = [:: <<2>>; <<4>>; Add ].
 Check erefl :
-  compile [[ ... expression ... ]] = [:: ... stack-program ].
-...
+  compile  [[ 2 + 3 ]] = [:: <<2>>; <<3>>; Add ].
+Check erefl :
+  compile  (Plus (Const 2) (Const 1))= [:: <<2>>; <<1>>; Add ].
+
 (* Some ideas for unit tests:
   - check that `run (compile e) [::] = [:: eval e]`, where `e` is an arbitrary expression;
   - check that `compile` is an injective function
