@@ -171,18 +171,18 @@ programs and do some unit tests. *)
 Fixpoint compile (e : expr) : prog :=
   match e with
   | Const x   => [:: << x >>]
-  | Plus x y  => compile x ++ compile y ++ [::Add]
-  | Minus x y => compile x ++ compile y ++ [::Sub]
-  | Mult x y  => compile x ++ compile y ++ [::Mul]
+  | Plus x y  => compile y ++ compile x ++ [::Add]
+  | Minus x y => compile y ++ compile x ++ [::Sub]
+  | Mult x y  => compile y ++ compile x ++ [::Mul]
   end.
 
 (** Do some unit tests *)
 Fail Check erefl :
   compile  [[ 2 + 3 ]] = [:: <<2>>; <<4>>; Add ].
 Check erefl :
-  compile  [[ 2 + 3 ]] = [:: <<2>>; <<3>>; Add ].
+  compile  [[ 2 + 3 ]] = [:: <<3>>; <<2>>; Add ].
 Check erefl :
-  compile  (Plus (Const 2) (Const 1))= [:: <<2>>; <<1>>; Add ].
+  compile  (Plus (Const 2) (Const 1))= [:: <<1>>; <<2>>; Add ].
 
 (* Some ideas for unit tests:
   - check that `run (compile e) [::] = [:: eval e]`, where `e` is an arbitrary expression;
@@ -243,7 +243,6 @@ Compute  decompile (compile [[2 + 3 * 5]]).
 
 Check erefl :
   decompile (compile [[2 + 3 * 5]]) = some [[2 + 3 * 5]].
-...
 
 (* Some ideas for unit tests:
   - check that `decompile (compile e) = Some e`, where `e` is an arbitrary expression
