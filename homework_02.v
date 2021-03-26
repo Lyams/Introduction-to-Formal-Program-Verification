@@ -201,11 +201,28 @@ expression *)
 Fixpoint helpe (p : prog) (e : seq expr): seq expr :=
   match p, e with
   | (Push x :: xs), _ => helpe xs (Const x :: e)
-  | (Add :: xs), (a::b::bx)  => helpe xs (Plus a b :: e)
-  | (Sub :: xs), (a::b::bs) => helpe xs (Minus a b :: e)
-  | (Mul :: xs), (a::b::bx)  => helpe xs (Mult a b :: e)
+  | (Add :: xs), (a::b::bx)  => helpe xs (Plus a b :: bx)
+  | (Sub :: xs), (a::b::bx) => helpe xs (Minus a b :: bx)
+  | (Mul :: xs), (a::b::bx)  => helpe xs (Mult a b :: bx)
   | _, _ => e
   end.
+
+Fixpoint helpe'' (e : seq expr) (p : prog) : (seq expr) :=
+  match e with
+  | a :: b :: bx => match p with
+                  | Add :: xs => helpe'' (Plus a b :: bx) xs
+                  | Sub :: xs => helpe'' (Minus a b :: bx) xs
+                  | Mul :: xs => helpe'' (Mult a b :: bx) xs
+                  | _ => if p is (Push x :: xs) then helpe'' (Const x :: e) xs else e
+                  end
+  | _ => if p is (Push x :: xs) then helpe'' (Const x :: e) xs else e
+  end.
+
+(*Fixpoint helpe' (p : prog) (e : seq expr) : (seq expr) :=
+  match p with
+  | Add :: xs => if e is (a:b::bs)
+  end.*)
+
 
 Definition decompile (p : prog) : option expr :=
   match helpe p [::] with
@@ -214,10 +231,18 @@ Definition decompile (p : prog) : option expr :=
   end.
 
 Compute (decompile [:: <<2>>; <<1>>; Add ]).
+Print some.
 
 (** Unit tests *)
 Check erefl :
-  decompile [:: Push 2; Push 4; Add ] = some [[ 2 + 4 ]].
+  decompile [:: Push 2] = some [[ 2 ]].
+
+Check erefl :
+  (decompile [:: <<2>>; <<1>>; Add ]) = some [[ 1 + 2 ]].
+Compute  decompile (compile [[2 + 3 * 5]]).
+
+Check erefl :
+  decompile (compile [[2 + 3 * 5]]) = some [[2 + 3 * 5]].
 ...
 
 (* Some ideas for unit tests:
