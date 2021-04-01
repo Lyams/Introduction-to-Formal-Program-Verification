@@ -29,3 +29,37 @@ Definition or_inrol_inj (A B : Prop) (p1 p2 :A) :
     with
     | erefl => erefl p1
     end.
+About or_inrol_inj.
+Print or_inrol_inj.
+
+Definition false_eq_true_implies_false :
+  false = true -> False
+:= fun eq : false = true =>
+    match eq in (_ = b)
+              return (if b then False else True)
+    with | erefl => I  end.
+
+Definition false_eq_true_implies_false' :
+  true = false -> False
+:= fun eq :  true = false =>
+    match eq in (_ = b)
+              return (if b then True else False)
+    with | erefl => I  end.
+Print false_eq_true_implies_false.
+Print False.
+Print True.
+
+
+
+Fail Definition or_introl_inj (A B : Prop) (p1 : A) (p2 : B) :
+  or_introl p1 = or_intror p2 -> False
+:=
+  fun eq =>
+    match
+      eq in (_ = oil2)
+      return (if oil2 is or_intror p2' then False else True)
+    with
+    | erefl => I
+    end.
+
+Locate "<>".
