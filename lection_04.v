@@ -63,3 +63,56 @@ Fail Definition or_introl_inj (A B : Prop) (p1 : A) (p2 : B) :
     end.
 
 Locate "<>".
+Definition neq_irrefl A (x : A) :
+  x <> x -> False
+:= fun neq_xx : x = x -> False =>
+    neq_xx erefl.
+
+Definition neq_sym A (x y : A) :
+  x <> y -> y <> x
+:= fun neq_xy : x <> y =>
+    fun eq_yx : y = x =>
+      (match
+         eq_yx in (_ = a)
+         return (a <> y -> False)
+       with
+       | erefl => fun neq_yy : y <> y => neq_yy erefl
+       end) neq_xy.
+
+Definition congr1 (A B : Type) :
+  forall (f : A -> B) (x y : A),
+    x = y -> f x = f y
+:=
+  fun f x y xy =>
+    match
+      xy in (_ = b)
+         return (f x = f b)
+    with
+    | erefl => erefl (f x)
+    end.
+
+
+Fail Definition addn0 :
+  forall n : nat, n + 0 = n
+:=
+  fun (n : nat) =>
+    match n as a return (a + 0 = a) with
+    | O => erefl 0
+    | S n' => congr1 S (_ : n' + 0 = n')
+    end.
+
+Definition addn0 :
+  forall n : nat, n + 0 = n
+:= fix rec (n : nat) : n + 0 = n :=
+    match n return (n + 0 = n) with
+    | O => erefl 0
+    | S n' => congr1 S (rec n')
+    end.
+
+Definition add0n :
+  forall n : nat, 0 + n = n
+:= fun n : nat => erefl n.
+
+
+
+
