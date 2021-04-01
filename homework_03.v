@@ -99,7 +99,14 @@ Definition eq2 : 42 = (if true then 21 + 21 else 239)
 (** * Exercise *)
 Definition LEM_decidable :
   forall (b : bool), b || ~~ b = true
-:= replace_with_your_solution_here.
+:= fun b =>
+    match b as b0
+       in bool
+       return (b0 || ~~ b0 = true)
+    with
+    | true => erefl true 
+    | false => erefl true
+     end.
 
 (** * Exercise *)
 Definition if_neg :
