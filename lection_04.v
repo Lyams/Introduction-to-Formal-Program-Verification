@@ -113,6 +113,21 @@ Definition add0n :
   forall n : nat, 0 + n = n
 := fun n : nat => erefl n.
 
+Definition nat_ind :
+  forall (P : nat -> Prop),
+          P 0 ->
+          (forall n : nat, P n -> P n.+1) ->
+          forall n : nat, P n
+:= fun P =>
+   fun (p0 : P 0) =>
+   fun (step : (forall n : nat, P n -> P n.+1)) =>
+      fix rec (n: nat) :=
+        match n return (P n) with
+        | O => p0
+        | S n' => step n' (rec n')
+        end.
+
+
 
 
 
