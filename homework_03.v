@@ -17,7 +17,13 @@ Variables A B C : Prop.
 
 (** * Exercise *)
 Definition notTrue_iff_False : (~ True) <-> False
-:= replace_with_your_solution_here.
+:= (*(~ True -> False) /\ (False -> (~ True)).*)
+  let pl : ~ True -> False :=
+    fun nt : True -> False => (nt I : False)
+  in
+  let pr : False -> True -> False :=
+    fun f _ => f
+  in conj pl pr.
 
 (* Hint 1: use [Locate "<->".] and [Print iff.] commands to understand better
 the type above. *)
@@ -29,12 +35,13 @@ use `match <term> in <type> with ... end` instead of `match <term> with ... end`
 
 (** * Exercise: double negation elimination works for `False` *)
 Definition dne_False : ~ ~ False -> False
-:= replace_with_your_solution_here.
+:= (* ((False-> False) -> False) -> False *)
+  fun fff => (fff id : False).
 
 
 (** * Exercise: double negation elimination works for `True` too. *)
 Definition dne_True : ~ ~ True -> True
-:= replace_with_your_solution_here.
+:= fun _ => I.
 
 
 (** * Exercise: Weak Peirce's law
@@ -42,7 +49,12 @@ Peirce's law (https://en.wikipedia.org/wiki/Peirce%27s_law) is equivalent to
 Double Negation Elimination (and the Law of Excluded Middle too),
 so it does not hold in general, but we can prove its weak form. *)
 Definition weak_Peirce : ((((A -> B) -> A) -> A) -> B) -> B
-:= replace_with_your_solution_here.
+:= fun abaab =>
+    let abaa : (((A -> B) -> A) -> A) := 
+        fun aba => 
+          let ab : A -> B := fun a => abaab ( fun _ => a)
+          in (aba ab : A)
+    in abaab abaa.
 
 (* Hint 1: use let-in expression to break the proof into pieces and solve them independently *)
 (* Hint 2: annotate the identifiers of let-expressions with types: [let x : <type> := ... in ...] *)
@@ -54,12 +66,18 @@ Variable P Q : T -> Prop.
 (** * Exercise: existential introduction rule *)
 Definition exists_introduction :
   forall (x : T), P x -> (exists (x : T), P x)
-:= replace_with_your_solution_here.
+:= fun x px => ex_intro P x px.
+
+Definition exists_introduction' :
+  forall (x : T), P x -> (exists (x : T), P x)
+:= ex_intro P.
 
 (** * Exercise: Frobenius rule: existential quantifiers and conjunctions commute *)
 Definition frobenius_rule :
   (exists x, A /\ P x) <-> A /\ (exists x, P x)
-:= replace_with_your_solution_here.
+:= conj
+      (fun '(ex_intro x (conj a px)) => conj a (ex_intro P x px))
+      (fun '(conj a (ex_intro x px)) => ex_intro _ x (conj a px)).
 
 
 End Logic.
@@ -72,11 +90,11 @@ Variables A B C D : Type.
 
 (** * Exercise *)
 Definition eq1 : true = (true && true)
-:= replace_with_your_solution_here.
+:= erefl.
 
 (** * Exercise *)
 Definition eq2 : 42 = (if true then 21 + 21 else 239)
-:= replace_with_your_solution_here.
+:= erefl 42.
 
 (** * Exercise *)
 Definition LEM_decidable :
