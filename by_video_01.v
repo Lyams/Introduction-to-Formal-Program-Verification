@@ -18,3 +18,7 @@ Theorem syll' : (A -> B) -> ((B -> C) -> (A -> C)).
 Proof.
 auto.
 Qed.
+
+Print syll.
+Print list.
+Print list_ind.
