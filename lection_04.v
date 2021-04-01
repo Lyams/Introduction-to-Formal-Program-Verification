@@ -127,6 +127,38 @@ Definition nat_ind :
         | S n' => step n' (rec n')
         end.
 
+Definition addn0' : forall n : nat, n + 0 = n
+:= @nat_ind
+    (fun n => n + 0 = n)
+    (erefl 0)
+    (fun _ IHn => congr1 S IHn).
+
+Definition nat_rect :
+  forall (P : nat -> Type),
+    P 0 ->
+    (forall n : nat, P n -> P n.+1) ->
+    forall n : nat, P n
+  := fun P
+         (p0 : P 0)
+         (step : (forall n : nat, P n -> P n.+1)) =>
+       fix rec (n : nat) :=
+       match n return (P n) with
+       | O => p0
+       | S n' => step n' (rec n')
+       end.
+
+Definition addn' : nat -> nat -> nat
+:=  @nat_rect
+      (fun _ => nat -> nat)
+      id
+      (fun _ pn => succn \o pn).
+
+Check erefl : addn' 20 15 = 35.
+
+
+
+
+
 
 
 
