@@ -44,14 +44,24 @@ Definition false_eq_true_implies_False :
   end.
 
 Print congr1.
+Print nat_ind.
 (** * Exercise *)
-Definition addnS :
+Definition addnS (m n : nat) :
+           m + n.+1 = (m + n).+1
+:= (nat_ind (fun m => m + n.+1 = (m + n).+1)
+    (erefl n.+1)
+    (fun m' addnS' => congr1 (fun x => x.+1) addnS' )) m.
+
+Definition addnS'' :
   forall m n, m + n.+1 = (m + n).+1
-:= fix IH  m n :=
+:= fix addnS m n :=
   match m as m return m + n.+1 = (m + n).+1 with
-    | 0 => erefl n.+1
-    | m'.+1 =>   (*IH m' n*)
-  end.
+  | 0 => erefl n.+1
+  | m'.+1 =>
+    let prevH : m' + n.+1 = (m' + n).+1 := addnS m' n in
+      let currH : (m' + n.+1).+1 = ((m' + n).+1 ).+1 :=
+          congr1 (fun x => x.+1) prevH
+     in currH end.
 
 
 (** * Exercise *)
