@@ -112,14 +112,17 @@ Definition LEM_decidable :
 Definition if_neg :
   forall (A : Type) (b : bool) (vT vF: A),
     (if ~~ b then vT else vF) = if b then vF else vT
-:= replace_with_your_solution_here.
+:= fun _ b vT vF => match b with
+    | true => erefl
+    | false => erefl
+    end.
 
 (** * Exercise : associativity of function composition *)
 (** [\o] is a notation for function composition in MathComp, prove that it's associative *)
 
 Definition compA (f : A -> B) (g : B -> C) (h : C -> D) :
   (h \o g) \o f = h \o (g \o f)
-:= replace_with_your_solution_here.
+:= .
 
 
 (** [=1] stands for extensional equality on unary functions,
