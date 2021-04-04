@@ -167,7 +167,7 @@ Definition eq_compl :
 Definition eq_compr :
   forall (f g : B -> C) (h : A -> B),
     f =1 g -> f \o h =1 g \o h
-:= replace_with_your_solution_here.
+:= fun _ _ h f_g a => f_g (h a).
 
 End Equality.
 
@@ -184,8 +184,15 @@ different lemma.
 
 Definition iff_is_if_and_only_if :
   forall a b : bool, (a ==> b) && (b ==> a) = (a == b)
-:= replace_with_your_solution_here.
+:= fun a b => match a, b with 
+    | true, true   => erefl : true = true
+    | false, false => erefl : true = true
+    | _, _         => erefl : false = false
+    end.
 
 Definition negbNE :
   forall b : bool, ~~ ~~ b = true -> b = true
-:= replace_with_your_solution_here.
+:= fun b => match b with true => id | false => id end.
+
+
+
