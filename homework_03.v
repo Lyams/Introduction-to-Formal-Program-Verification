@@ -108,6 +108,13 @@ Definition LEM_decidable :
     | false => erefl true
      end.
 
+Definition LEM_decidable' :
+  forall ( b: bool), b || ~~ b = true
+:= fun b => match b with
+   | true => erefl
+   | false => erefl end.
+
+
 (** * Exercise *)
 Definition if_neg :
   forall (A : Type) (b : bool) (vT vF: A),
