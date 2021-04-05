@@ -8,7 +8,7 @@ Inductive day : Type :=
   | wednesday
   | thursday
   | friday
-  | satuday
+  | saturday
   | sunday.
 
 Definition next_weekday ( d: day) : day :=
@@ -17,10 +17,15 @@ Definition next_weekday ( d: day) : day :=
   | tuesday => wednesday
   | wednesday => thursday
   | thursday => friday
-  | friday => satuday
-  | satuday => sunday
+  | friday => saturday
+  | saturday => sunday
   | sunday => monday
   end.
 
+Compute (next_weekday sunday).
 
+Compute (next_weekday (next_weekday friday)).
+
+Example test_n_w: (next_weekday (next_weekday sunday)) = tuesday.
+Proof. simpl. reflexivity. Qed.
 End My.
