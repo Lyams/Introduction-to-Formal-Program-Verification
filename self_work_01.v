@@ -67,4 +67,20 @@ Proof. simpl. reflexivity. Qed.
 Example test_orb5: false || false || true = true.
 Proof. simpl. reflexivity. Qed.
 
+(* Exercise: 1 star, standard (nandb) *)
+Definition nandb (a:bool) (b:bool) : bool
+:= match a, b with
+  | true, true => false
+  | true, false => true
+  | false, _ => true
+  end.
+Example test_nandb1: (nandb true false) = true.
+Proof. simpl. reflexivity. Qed.
+Example test_nandb2: (nandb false false) = true.
+Proof. simpl. reflexivity. Qed.
+Example test_nandb3: (nandb false true) = true.
+Proof. simpl. reflexivity. Qed.
+Example test_nandb4: (nandb true true) = false.
+Proof. simpl. reflexivity. Qed.
+
 End My.
