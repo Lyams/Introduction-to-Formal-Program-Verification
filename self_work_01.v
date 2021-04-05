@@ -28,4 +28,43 @@ Compute (next_weekday (next_weekday friday)).
 
 Example test_n_w: (next_weekday (next_weekday sunday)) = tuesday.
 Proof. simpl. reflexivity. Qed.
+
+Inductive bool : Type := true | false.
+
+Definition negb (b : bool) : bool :=
+  match b with
+  | true => false
+  |false => true
+  end.
+
+Definition andb (a : bool) (b : bool) : bool :=
+  match a with
+  | true => b
+  | false => false
+  end.
+Notation "x && y" := (andb x y).
+Example test_andb1: (andb false true) = false.
+Proof. simpl. reflexivity. Qed.
+Example test_andb2: (true && true) = true.
+Proof. simpl. reflexivity. Qed.
+Example test_andb3: (andb true (andb false true)) = false.
+Proof. simpl. reflexivity. Qed.
+
+Definition orb (a : bool) (b : bool) : bool
+:= match a with
+  | true => true
+  | false => b
+  end.
+Notation "x || y" := (orb x y).
+Example test_orb1: (orb true false) = true.
+Proof. simpl. reflexivity. Qed.
+Example test_orb2: (orb false false) = false.
+Proof. simpl. reflexivity. Qed.
+Example test_orb3: (orb false true) = true.
+Proof. simpl. reflexivity. Qed.
+Example test_orb4: (orb true true) = true.
+Proof. simpl. reflexivity. Qed.
+Example test_orb5: false || false || true = true.
+Proof. simpl. reflexivity. Qed.
+
 End My.
