@@ -259,5 +259,17 @@ Theorem plus_id_exercise : forall n m l : nat,
   n = m -> m = l -> n + m = m + l.
 Proof. intros n m l. intros H. intros H1. rewrite -> H.
   rewrite -> H1. reflexivity. Qed.
+Check plus_id_exercise.
+
+Theorem mult_n_0_m_0 : forall p q : nat, (p * 0) + (q * 0) = 0.
+Proof. Admitted.
+Check mult_n_O.
+Check mult_n_Sm.
+
+(* Exercise: 1 star, standard (mult_n_1) *)
+Theorem mult_n_1 : forall p : nat, p * 1 = p.
+Proof. intros p. simpl. rewrite <- mult_n_Sm.
+  rewrite <- mult_n_O. reflexivity. Qed.
+
 
 End My.
