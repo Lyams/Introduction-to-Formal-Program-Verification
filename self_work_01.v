@@ -250,5 +250,14 @@ Proof. intros n. reflexivity. Qed.
 Theorem mult_0_l : forall n : nat, 0 * n = 0.
 Proof. intros n. reflexivity. Qed.
 
+Theorem plus_id_ex : forall n m : nat,
+  n = m -> n + n = m + m.
+Proof. intros n m. intros H. rewrite -> H. reflexivity. Qed.
+
+(* Exercise: 1 star, standard (plus_id_exercise) *)
+Theorem plus_id_exercise : forall n m l : nat,
+  n = m -> m = l -> n + m = m + l.
+Proof. intros n m l. intros H. intros H1. rewrite -> H.
+  rewrite -> H1. reflexivity. Qed.
 
 End My.
