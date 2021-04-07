@@ -366,5 +366,17 @@ About O.
 Check (0%nat).
 Check 0.
 
+(* Exercise: 2 stars, standard, optional (decreasing) *)
+Fail Fixpoint plus'' (n : nat) (m : nat) : nat :=
+  match n with
+  | O => m
+  | S n' => S (plus'' m n')
+  end.
+
+
+
+
+
+
 
 End My.
