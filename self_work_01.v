@@ -356,4 +356,15 @@ Proof. intros [|n].
   - reflexivity.
   - reflexivity. Qed.
 
+Notation "x + y" := (plus x y)
+                       (at level 50, left associativity)
+                       : nat_scope.
+Notation "x * y" := (mult x y)
+                       (at level 40, left associativity)
+                       : nat_scope.
+About O.
+Check (0%nat).
+Check 0.
+
+
 End My.
