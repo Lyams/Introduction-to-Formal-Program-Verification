@@ -43,7 +43,6 @@ Definition false_eq_true_implies_False :
   | erefl => I
   end.
 
-Print congr1.
 Print nat_ind.
 (** * Exercise *)
 Definition addnS (m n : nat) :
@@ -54,19 +53,28 @@ Definition addnS (m n : nat) :
 
 Definition addnS'' :
   forall m n, m + n.+1 = (m + n).+1
-:= fix addnS m n :=
+:= fix addnS'' m n :=
   match m as m return m + n.+1 = (m + n).+1 with
   | 0 => erefl n.+1
   | m'.+1 =>
-    let prevH : m' + n.+1 = (m' + n).+1 := addnS m' n in
+    let prevH : m' + n.+1 = (m' + n).+1 := addnS'' m' n in
       let currH : (m' + n.+1).+1 = ((m' + n).+1 ).+1 :=
           congr1 (fun x => x.+1) prevH
      in currH end.
 
+Print congr1.
+About congr1.
 
 (** * Exercise *)
 Definition addA : associative addn
-:= replace_with_your_solution_here.
+:= fix addA (b c d : nat) {struct b} : b + (c + d) = b + c + d
+:= ( nat_ind (fun b => b + (c + d) = b + c + d)
+      (erefl (c + d) )
+      (fun b' addA' => congr1 (fun z => z.+1) addA')
+    ) b .
+(*match b as b return b + (c + d) = b + c + d with
+    | 0 => erefl (c + d)
+    | m'.+1 => _ end. *)
 
 
 (** * Exercise: *)
