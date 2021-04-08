@@ -14,8 +14,14 @@ Variables A B C : Prop.
 Lemma andA :
   (A /\ B) /\ C -> A /\ (B /\ C).
 Proof.
-
-Admitted.
+  case. case. move => a b c. split.
+  - exact: a. split.
+  - exact: b.
+  exact: c.
+Restart. Show.
+by case => [[a b] c].
+Show Proof.
+Qed.
 
 
 (** * Exercise *)
