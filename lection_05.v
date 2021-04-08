@@ -1,4 +1,5 @@
-From mathcomp Require Import ssreflect ssrfun ssrbool eqtype ssrnat div.
+From mathcomp Require Import ssreflect
+ssrfun ssrbool eqtype ssrnat div.
 Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
@@ -72,10 +73,10 @@ Definition orC (A B : Prop) :
   A \/ B -> B \/ A.
 Proof.
 case.
-move=> a.
+move => a.
   right.
   exact: a.
-move=> b.
+move => b.
 left.
 exact: b.
 Qed.
@@ -85,16 +86,56 @@ Lemma or_and_distr A B C :
 Proof.
 case.
 case.
-- move=> a c.
+- move => a c.
   left.
   split.
   - exact: a.
   exact: c.
-move=> b c.
+move => b c.
 right.
 split.
 - exact: b.
 exact: c.
 Qed.
 
+Lemma or_and_distr1 A B C :
+  (A \/ B) /\ C -> A /\ C \/ B /\ C.
+Proof.
+case.
+case => [a|b] c.
+- by left.
+by right.
+Qed.
 
+Lemma or_and_distr2 A B C :
+  (A \/ B) /\ C -> A /\ C \/ B /\ C.
+Proof. by case=> [[a|b] c]; [left | right]. Qed.
+
+Lemma HilberSaxiom A B C :
+  (A -> B -> C) -> (A -> B) -> A -> C.
+Proof.
+  move => abc ab a.
+  move: abc.
+  apply.
+  - by [].
+  move: ab.
+  apply.
+  done. (* exact: a. *)
+Qed.
+
+Lemma HilberSaxiom1 A B C :
+  (A -> B -> C) -> (A -> B) -> A -> C.
+Proof. 
+  move => abc ab a.
+  apply: abc.
+  - by [].
+  by apply: ab. (* apply: ab. exact: a.*)
+  Qed.
+
+Lemma HilberSaxiom2 A B C :
+  (A -> B -> C) -> (A -> B) -> A -> C.
+Proof.
+  move => abc ab a.
+  apply: abc => //.
+  by apply: ab.
+  Qed.
