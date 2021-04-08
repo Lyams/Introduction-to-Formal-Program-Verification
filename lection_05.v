@@ -166,3 +166,28 @@ Proof.
   move=> ->.
   done.
 Qed.
+
+End RewriteTactic.
+
+Lemma addnA :
+  associative addn.
+Proof.
+  rewrite / associative.
+  move => x y z.
+Restart.
+  Show.
+  move=> x y z.
+  move: x.
+  elim.
+  Show Proof.
+  Check nat_ind.
+  -   by [].
+  move=> x IHx.
+  Fail rewrite IHx.
+  Search (_.+1 + _).
+  rewrite addSn.
+  rewrite IHx.
+  done.
+Restart.
+  by move=> x y z; elim: x=> // x IHx; rewrite addSn IHx.
+Qed.
