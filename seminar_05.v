@@ -28,24 +28,22 @@ Qed.
 Lemma conj_disjD :
   A /\ (B \/ C) -> (A /\ B) \/ (A /\ C).
 Proof.
-
-Admitted.
+  by case => [a [b | c]]; [left | right ].
+Qed.
 
 
 (** * Exercise *)
 Lemma disj_conjD :
   A \/ (B /\ C) -> (A \/ B) /\ (A \/ C).
-Proof.
-
-Admitted.
+Proof. by case => [a | [b c]]; [split; left | split ; right]. Qed.
 
 
 (** * Exercise *)
 Lemma notTrue_iff_False :
   (~ True) <-> False.
 Proof.
+by split; [apply | case]. Qed.
 
-Admitted.
 (** Hint 1: use [case] tactic on a proof of [False] to apply the explosion
 principle. *)
 (** Hint 2: to solve the goal of the form [True], use [exact: I], or simple
@@ -55,7 +53,7 @@ automation. *)
 (** * Exercise *)
 Lemma imp_trans :
   (A -> B) -> (B -> C) -> (A -> C).
-Proof.
+Proof. move=> ab bc a. apply: bc. apply: ab. done. Qed.
 
 Admitted.
 
