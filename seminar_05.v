@@ -59,20 +59,22 @@ Proof. move=> ab bc a. apply: bc. apply: ab. done. Qed.
 (** * Exercise *)
 Lemma dne_False :
   ~ ~ False -> False.
-Proof. case. case. Qed.
+Proof. by apply. Qed.
+(* Proof. case. case. Show Proof. Qed. *)
 
 
 (** * Exercise *)
 Lemma dne_True :
   ~ ~ True -> True.
-Proof. move => a. done. Qed.
+Proof. move => _. done. Show Proof. Qed.
 
 (** * Exercise *)
 Lemma LEMisNotFalse :
   ~ ~ (A \/ ~ A).
-Proof.
+Proof. move => protivor. apply: (protivor). right. move => a. move: protivor.
+  rewrite /not. apply. left. done. Qed.
 
-Admitted.
+
 (** Hint : use `apply: (identifier)`
 to apply a hypothesis from the context to
 the goal and keep the hypothesis in the context *)
@@ -95,17 +97,13 @@ Variables A B : Type.
 (** * Exercise 10 *)
 Lemma eqext_refl (f : A -> B) :
   f =1 f.
-Proof.
-
-Admitted.
-
+Proof. move => x. done. Qed.
 
 (** * Exercise 11 *)
 Lemma eqext_sym (f g : A -> B) :
   f =1 g -> g =1 f.
-Proof.
+Proof. move => fg x. rewrite fg. done. Qed.
 
-Admitted.
 (** Hint: `rewrite` tactic also works with
 universally quantified equalities. I.e. if you
 have a hypothesis `eq` of type `forall x, f x = g
@@ -118,27 +116,20 @@ essentially `rewrite (eq t)` here. *)
 (** * Exercise *)
 Lemma eqext_trans (f g h : A -> B) :
   f =1 g -> g =1 h -> f =1 h.
-Proof.
-
-Admitted.
+Proof. move => fg gh fh. rewrite fg. done. Qed. (* by apply: gh  вместо done*)
 
 End EquationalReasoning.
-
-
 
 (** * Exercise *)
 Lemma and_via_ex (A B : Prop) :
   (exists (_ : A), B) <-> A /\ B.
-Proof.
-
-Admitted.
-
+Proof. split. case. move => a b. done. case. exact. Qed.
 
 (** * Exercise *)
 (* Hint: the `case` tactic understands constructors are injective *)
 Lemma pair_inj A B (a1 a2 : A) (b1 b2 : B) :
   (a1, b1) = (a2, b2) -> (a1 = a2) /\ (b1 = b2).
-Proof.
+Proof. move => a. split.
 
 Admitted.
 
@@ -146,17 +137,15 @@ Admitted.
 (** * Exercise *)
 Lemma false_eq_true_implies_False :
   forall n, n.+1 = 0 -> False.
-Proof.
-
-Admitted.
+Proof. by case => //=. Qed.
 
 
 (** * Exercise *)
 Lemma addn0 :
   right_id 0 addn.
-Proof.
-
-Admitted.
+Proof. Print right_id. rewrite /right_id. elim. done.
+  move => a IHa. rewrite addSn. rewrite IHa. done.
+Qed.
 
 
 (** * Exercise *)
