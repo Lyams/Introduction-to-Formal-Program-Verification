@@ -139,3 +139,30 @@ Proof.
   apply: abc => //.
   by apply: ab.
   Qed.
+
+Section RewriteTactic.
+
+Variable A : Type.
+Implicit Types x y z : A.
+
+Lemma esym x y :
+  x = y -> y = x.
+Proof.
+  move => x_eq_y.
+  rewrite x_eq_y.
+  by []. (* done. *)
+Qed.
+
+Lemma eq_sym_shorter x y :
+  x = y -> y = x.
+Proof.
+  move => ->.
+  done.
+Qed.
+
+Lemma eq_trans x y z :
+  x = y -> y = z -> x = z.
+Proof.
+  move=> ->.
+  done.
+Qed.
