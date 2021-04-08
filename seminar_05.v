@@ -55,24 +55,17 @@ Lemma imp_trans :
   (A -> B) -> (B -> C) -> (A -> C).
 Proof. move=> ab bc a. apply: bc. apply: ab. done. Qed.
 
-Admitted.
-
 
 (** * Exercise *)
 Lemma dne_False :
   ~ ~ False -> False.
-Proof.
-
-Admitted.
+Proof. case. case. Qed.
 
 
 (** * Exercise *)
 Lemma dne_True :
   ~ ~ True -> True.
-Proof.
-
-Admitted.
-
+Proof. move => a. done. Qed.
 
 (** * Exercise *)
 Lemma LEMisNotFalse :
