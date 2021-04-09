@@ -35,7 +35,7 @@ Axiom replace_with_your_solution_here : forall {A : Type}, A.
 
 Definition and_via_ex (A B : Prop) :
   (exists (_ : A), B) <-> A /\ B
-:= replace_with_your_solution_here.
+:= _.
 
 
 (** * Exercise *)

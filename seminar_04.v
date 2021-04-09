@@ -71,21 +71,50 @@ Definition addA : associative addn
 := ( nat_ind (fun b => b + (c + d) = b + c + d)
       (erefl (c + d) )
       (fun b' addA' => congr1 (fun z => z.+1) addA')
-    ) b .
-(*match b as b return b + (c + d) = b + c + d with
-    | 0 => erefl (c + d)
-    | m'.+1 => _ end. *)
+    ) b.
 
 
 (** * Exercise: *)
-Definition addnCA : left_commutative addn
-:= replace_with_your_solution_here.
 
+Print congr1.
+Print etrans.
+Print eq_trans.
+About left_commutative.
+Print left_commutative.
+Print eq_sym.
+(*Definition addnCA : left_commutative addn
+:= fix fa (b c d : nat) {struct b} : b + (c + d) = c + (b + d)
+  := match b return (b + (c + d) = c + (b + d)) with
+      | 0 => erefl (c+d)
+      | b'.+1 => 
+        let H1 (*:  b'.+1 + ( c + d) = c.+1 + (b' + d) *) := congr1 S (fa b' c d) in
+        let S (* : c.+1 + (b' + d) = c + (b'.+1 + d) *) := eq_sym (addnS c.+1 (b' + d)) in
+        eq_trans H1 S
+      end. *)
 
+(*( nat_ind (fun b => b + (c + d) = c + (b + d))
+        (erefl (c+d))
+        (fun (b' : nat) addnCA' => _ addnCA' )
+    ) b. *)
+
+Print commutative.
+Print eq_refl.
+Print addn.
 (** * Exercise (optional): *)
 Definition addnC : commutative addn
-:= replace_with_your_solution_here.
+:= fix addnC' (x y : nat)
+:= match x  with
+  | O => erefl _
+  | b'.+1 => _
+  end.
 
+(*Definition addnC : commutative addn
+:= fix addnC' (x y : nat) := (nat_ind 
+    (fun x => x + y = y + x)
+    (_ y)
+    (fun (x' : nat) addnC' => congr1  (fun z => z.+1) addnC' )
+    ) x.
+*)
 
 (** * Exercise (optional):
 Formalize and prove
