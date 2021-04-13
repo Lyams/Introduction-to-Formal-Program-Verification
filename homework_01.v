@@ -6,9 +6,7 @@ Module My.
 
 Local Open Scope nat_scope.
 
-Inductive bool : Type :=
-| true
-| false.
+Inductive bool : Type := true | false.
 
 Definition negb :=
   fun (b : bool) =>
@@ -27,6 +25,7 @@ Definition orb (b c : bool) : bool :=
   | false => c
   | true => true
   end.
+
 Check orb.
 Compute orb true false.
 Compute orb false true.
@@ -40,10 +39,11 @@ and don't just swap the variables) and explore its reduction behavior
 in the presence of symbolic variables. |*)
 
 Definition addb (b c : bool) : bool :=
-    match b with
-    | false => c
-    | true => negb(c)
-    end.
+  match b with
+  | false => c
+  | true => negb(c)
+  end.
+
 Check addb.
 Compute addb true false.
 Compute addb false false.
@@ -53,10 +53,11 @@ Compute addb false true.
 must return `true` if and only iff `b` is equal to `c`. Add unit tests. |*)
 
 Definition eqb (b c : bool) : bool := 
-    match b with
-    | true => c
-    | false => negb(c)
-    end.
+  match b with
+  | true => c
+  | false => negb(c)
+  end.
+
 Check eqb.
 Compute eqb true true.
 Compute eqb false false.
@@ -75,11 +76,12 @@ number and decrements it by 2, e.g. for the number `5` it must return `3`. Write
 some unit tests for `dec2`. What should it return for `1` and `0`? |*)
 
 Definition dec2 (n : nat) : nat := 
-    match n with
-    | O => O
-    | S O => O
-    | S (S n') => n'
-    end.
+  match n with
+  | O => O
+  | S O => O
+  | S (S n') => n'
+  end.
+
 Check dec2.
 Compute dec2 (S(S (S (S (S (S (S O))))))).
 Compute dec2 (S O).
@@ -92,12 +94,13 @@ natural numbers `m` and `n` and returns the result of subtracting `n` from `m`.
 E.g. `subn 5 3` returns `2`. Write some unit tests. |*)
 
 Fixpoint subn (m n : nat) {struct n} : nat :=
-    if m is (S m') then
+  if m is (S m') then
     match n with
     | O => m
     | (S n') => subn m' n'
     end
-    else O.
+  else O.
+
 Check subn.
 Compute subn (S O) (S O).
 Compute subn (S(S(S O))) (S O).
@@ -113,6 +116,7 @@ Fixpoint addn (n m : nat) {struct n} : nat :=
     | O => m
     | S n' => S (addn n' m)
     end.
+
 Compute addn (S(S(S(O)))) (S(S(S(S(O))))).
 
 Fixpoint muln (m n : nat) {struct m}  : nat :=
@@ -120,7 +124,7 @@ Fixpoint muln (m n : nat) {struct m}  : nat :=
     | O => O
     | S p => addn n (p * n)
     end
-where "p * n" := (muln p n ) : nat_scope.
+  where "p * n" := (muln p n ) : nat_scope.
 
 Fixpoint muln' (m n : nat) : nat :=
   match m with
@@ -133,7 +137,9 @@ Fixpoint muln'' (m n : nat) : nat :=
   | _, O => O
   | _, S n' => addn m (muln'' m n')
   end.
-Check eq_refl : muln'' (S(S(S(S(S O))))) (S(S(O))) = (S(S(S(S(S(S(S(S(S(S O)))))))))).
+
+Check eq_refl : muln'' (S(S(S(S(S O))))) (S(S(O))) =
+  (S(S(S(S(S(S(S(S(S(S O)))))))))).
 
 (**     if m is (S m') then addn n (mult m' n)
      else O. *)
@@ -154,6 +160,7 @@ Fixpoint eqn (m n : nat) : bool :=
                           then eqn m' n'
                           else false
       else if n is O then true else false.
+
 Check eqn.
 Compute eqn O O.
 Compute eqn (S O) (S O).
@@ -171,6 +178,7 @@ Fixpoint leq (m n : nat) : bool :=
                           then leq m' n'
                           else false
      else true.
+
 Check leq.
 Compute leq O O.
 Compute leq (S O) (S O).
@@ -197,8 +205,10 @@ Fixpoint subn' ( a b : nat) : nat :=
   | S a' => if b is S b' then subn' a' b' else a
   | O => a
   end.
+
 Fixpoint divn (m n : nat) {struct m} : nat :=
-  if n is S n' then    if subn'' m n' is S m' then S (divn m' n) else O  else O.
+  if n is S n' then    if subn'' m n' is S m'
+    then S (divn m' n) else O  else O.
 
 Check eq_refl : divn (S(S(S(S(O))))) (S(S O)) = S(S O).
 Check eq_refl : divn (S(S(S(S(S(S(O))))))) (S(S O)) = S(S(S O)).
