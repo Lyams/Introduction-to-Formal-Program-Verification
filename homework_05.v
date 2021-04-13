@@ -12,8 +12,10 @@ Unset Printing Implicit Defensive.
 (** * Exercise *)
 Lemma nlem (A : Prop):
   ~ (A \/ ~ A) -> A.
-Proof.
-Admitted.
+Proof. move => a. move: (a).
+  rewrite /not. case. right. move => af. apply: (a).
+  left. done. Qed.
+
 (** Hint: you might want to use a separate lemma here to make progress.
 Or, use the `have` tactic: `have: statement` creates a new subgoal and asks
 you to prove the statement. This is like a local lemma. *)
@@ -22,7 +24,7 @@ you to prove the statement. This is like a local lemma. *)
 (** * Exercise *)
 Lemma weak_Peirce (A B : Prop) :
   ((((A -> B) -> A) -> A) -> B) -> B.
-Proof.
+Proof. 
 Admitted.
 
 
