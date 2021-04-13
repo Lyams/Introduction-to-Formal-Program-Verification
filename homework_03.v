@@ -50,15 +50,14 @@ Double Negation Elimination (and the Law of Excluded Middle too),
 so it does not hold in general, but we can prove its weak form. *)
 Definition weak_Peirce : ((((A -> B) -> A) -> A) -> B) -> B
 := fun abaab =>
-    let abaa : (((A -> B) -> A) -> A) := 
-        fun aba => 
-          let ab : A -> B := fun a => abaab ( fun _ => a)
-          in (aba ab : A)
+  let abaa : (((A -> B) -> A) -> A) := 
+    fun aba => 
+    let ab : A -> B := fun a => abaab ( fun _ => a)
+      in (aba ab : A)
     in abaab abaa.
 
 (* Hint 1: use let-in expression to break the proof into pieces and solve them independently *)
 (* Hint 2: annotate the identifiers of let-expressions with types: [let x : <type> := ... in ...] *)
-
 
 Variable T : Type.
 Variable P Q : T -> Prop.
@@ -79,9 +78,7 @@ Definition frobenius_rule :
       (fun '(ex_intro x (conj a px)) => conj a (ex_intro P x px))
       (fun '(conj a (ex_intro x px)) => ex_intro _ x (conj a px)).
 
-
 End Logic.
-
 
 
 Section Equality.
@@ -142,6 +139,7 @@ Print eq_refl.
 Definition eqext_refl :
   forall (f : A -> B), f =1 f
 := fun x y => erefl.
+
 About eqext_refl.
 (** * Exercise: Symmetry *)
 Definition eqext_sym :
@@ -193,6 +191,3 @@ Definition iff_is_if_and_only_if :
 Definition negbNE :
   forall b : bool, ~~ ~~ b = true -> b = true
 := fun b => match b with true => id | false => id end.
-
-
-
