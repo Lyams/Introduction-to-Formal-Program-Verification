@@ -83,9 +83,9 @@ the goal and keep the hypothesis in the context *)
 (** * Exercise *)
 Lemma weak_Peirce :
   ((((A -> B) -> A) -> A) -> B) -> B.
-Proof.
+Proof. move => a. apply a. move => b. apply b.
+  move => c. apply a. move => d. done. Qed.
 
-Admitted.
 
 End IntLogic.
 

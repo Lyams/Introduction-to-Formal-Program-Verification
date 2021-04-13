@@ -24,9 +24,8 @@ you to prove the statement. This is like a local lemma. *)
 (** * Exercise *)
 Lemma weak_Peirce (A B : Prop) :
   ((((A -> B) -> A) -> A) -> B) -> B.
-Proof. 
-Admitted.
-
+Proof. move => a. apply a. move => b. apply b.
+  move => c. apply a. move => d. done. Qed.
 
 (** * Exercise *)
 (* Prove that having a general fixed-point combinator in Coq would be incosistent *)
