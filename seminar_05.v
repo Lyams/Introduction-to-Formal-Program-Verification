@@ -129,9 +129,7 @@ Proof. split. case. move => a b. done. case. exact. Qed.
 (* Hint: the `case` tactic understands constructors are injective *)
 Lemma pair_inj A B (a1 a2 : A) (b1 b2 : B) :
   (a1, b1) = (a2, b2) -> (a1 = a2) /\ (b1 = b2).
-Proof. move => a. split.
-
-Admitted.
+Proof. case. move => a. move => b . split. apply: a. apply: b. Show Proof. Qed.
 
 
 (** * Exercise *)
@@ -151,14 +149,14 @@ Qed.
 (** * Exercise *)
 Lemma addnS :
   forall m n, m + n.+1 = (m + n).+1.
-Proof.
+Proof. move => a. case. rewrite addn0. move: a.  move => b.
 
 Admitted.
 
 
 (** * Exercise: *)
 Lemma addnCA : left_commutative addn.
-Proof.
+Proof. 
 
 Admitted.
 
