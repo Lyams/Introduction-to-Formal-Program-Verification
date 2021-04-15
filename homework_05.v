@@ -33,7 +33,7 @@ Definition FIX := forall A : Type, (A -> A) -> A.
 
 Lemma fix_inconsistent :
   FIX -> False.
-Proof.
+Proof. move => a. move: (a).
 Admitted.
 
 

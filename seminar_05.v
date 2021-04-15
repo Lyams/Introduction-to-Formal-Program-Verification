@@ -149,21 +149,20 @@ Qed.
 (** * Exercise *)
 Lemma addnS :
   forall m n, m + n.+1 = (m + n).+1.
-Proof. move => a. case. rewrite addn0. move: a.  move => b.
-
+Proof. move => a b.
 Admitted.
 
 
 (** * Exercise: *)
 Lemma addnCA : left_commutative addn.
-Proof. 
+Proof. Print addn. move => a b c.
 
 Admitted.
 
 
 (** * Exercise: *)
 Lemma addnC : commutative addn.
-Proof.
+Proof. move => a b.
 
 Admitted.
 
@@ -171,6 +170,6 @@ Admitted.
 (** * Exercise (optional): *)
 Lemma unit_neq_bool:
   unit <> bool.
-Proof.
+Proof. move => a.
 
 Admitted.
