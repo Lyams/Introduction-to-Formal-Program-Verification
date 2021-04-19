@@ -14,7 +14,7 @@ https://ilyasergey.net/pnp/pnp.pdf (see also site)
 Материалы курса: [https://github.com/anton-trunov/csclub-coq-course-spring-2021](https://github.com/anton-trunov/csclub-coq-course-spring-2021).
 
 ### Базовая литература
--   [Georges Gonthier, Roux Stéphane Le.  An Ssreflect Tutorial](https://hal.inria.fr/inria-00407778/document)
+-   [An Ssreflect Tutorial](https://hal.inria.fr/inria-00407778/document) by Georges Gonthier, Roux Stéphane Le.
 -   [Constructive Logic](http://www.cs.cmu.edu/~fp/courses/15317-f17/schedule.html)  от Frank Pfenning
 -   [Programs and Proofs](https://ilyasergey.net/pnp/)  от Ильи Сергея
 -   [Mathematical Components](https://math-comp.github.io/mcb/)  от Assia Mahboubi и Enrico Tassi
