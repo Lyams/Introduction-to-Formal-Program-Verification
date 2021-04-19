@@ -28,5 +28,30 @@ exact: hAiB. Qed.
 Lemma HilbertS3 : C.
 Proof. by apply: hAiBiC; last exact: hAiB. Qed.
 
+Lemma HilbertS4 : C.
+Proof. exact: (hAiBiC _ (hAiB _)). Qed.
+
+Lemma HilbertS5 : C.
+Proof. exact: hAiBiC (hAiB _). Qed.
+
+Lemma HilbertS6: C.
+Proof. exact: HilbertS5. Qed.
+
+Print HilbertS5.
+Print HilbertS2.
+Check HilbertS.
+
 End HilbertSaxiom.
+
+Print HilbertS5.
+Print HilbertS.
+
+
+Print bool.
+
+(* page 11 (14 vverhu) *)
+Section Symmetric_Conjunction_Disjunction.
+
+
+End Symmetric_Conjunction_Disjunction.
 
