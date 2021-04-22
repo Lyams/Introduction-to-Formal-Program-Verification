@@ -118,3 +118,73 @@ by case: nonotPy; exists y. Qed.
 
 End Smullyan_drinker.
 
+Section Equality.
+Variables f : nat -> nat.
+Hypothesis f00 : f 0 = 0.
+
+Lemma fkk : forall k, k = 0 -> f k = k.
+Proof.
+move=> k k0. by rewrite k0. Qed.
+
+Lemma fkk2 : forall k, k = 0 -> f k = k.
+Proof. by move=> k ->. Qed.
+
+Variable f10 : f 1 = f 0.
+
+Lemma ff10 : f (f 1) = 0.
+Proof. (* rewrite f10. rewrite f00. by [].*)
+by rewrite f10 f00.
+Qed.
+
+Variables (D : eqType) (x y : D).
+About eqP.
+
+Lemma eq_prop_bool : x = y -> x == y.
+Proof. by move/eqP. Qed.
+
+Lemma eq_bool_prop : x == y -> x = y.
+Proof. by move/eqP. Qed.
+
+End Equality.
+
+Section Using_Definition.
+Variable U : Type.
+Definition set := U -> Prop.
+Definition subset (A B : set) := forall x, A x -> B x.
+Definition transitive (T : Type) (R : T -> T -> Prop) :=
+  forall x y z, R x y -> R y z -> R x z.
+Check Prop.
+
+Lemma subset_trans : transitive set subset.
+Proof.
+rewrite /transitive /subset => x y z subxy subyz t xt.
+by apply: subyz; apply: subxy.
+Qed.
+
+Lemma subset_trans2 : transitive set subset.
+Proof. move=> x y z subxy subyz t.
+by move/subxy; move/subyz.
+Qed.
+
+End Using_Definition.
+(* 19 pages - 22 vverhu*)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
