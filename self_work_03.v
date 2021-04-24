@@ -167,12 +167,24 @@ by move/subxy; move/subyz.
 Qed.
 
 End Using_Definition.
+
 (* 19 pages - 22 vverhu*)
 
+Lemma three : S (S (S O)) = 3 /\ 2 = 0.+1.+1.
+Proof. by []. Qed.
 
+Print plus.
+Print Nat.add.
 
+Lemma concrete_plus : plus 16 64 = 80.
+Proof. by []. Qed.
 
+Print addn.
+Print muln.
+Print Nat.mul.
+Print le.
 
+(* page 21 - vverhu 24 *)
 
 
 
