@@ -185,6 +185,27 @@ Print Nat.mul.
 Print le.
 
 (* page 21 - vverhu 24 *)
+About Le.le_n_Sn.
+Lemma concrete_le : le 1 3.
+Proof. by apply: (Le.le_trans _ 2); apply: Le.le_n_Sn.
+(* apply: (Le.le_trans _ 2). apply: Le.le_n_Sn.
+ apply: Le.le_n_Sn. *) Qed.
+
+Lemma concrete_big_le : le 16 64.
+Proof. by auto 47 with arith. Qed.
+
+Print leq.
+
+Lemma concrete_big_leq : 0 <= 51.
+Proof. by []. Show Proof. Qed.
+
+Lemma semi_concrete_leq : forall n m,
+  n <= m -> 51 + n <= 51 + m.
+Proof. by []. Qed.
+
+
+
+
 
 
 
