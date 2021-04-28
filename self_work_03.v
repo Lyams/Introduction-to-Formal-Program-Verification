@@ -203,7 +203,24 @@ Lemma semi_concrete_leq : forall n m,
   n <= m -> 51 + n <= 51 + m.
 Proof. by []. Qed.
 
+Lemma concrete_arith : (50 < 100) &&
+  (3 + 4 < 3 * 4 <= 17 - 2).
+Proof. by []. Qed.
 
+Check nat_ind.
+
+Lemma plus_commute : forall n1 m1, n1 + m1 = m1 + n1.
+Proof.
+elim=> [m1 | n1 IHn1 m1].
+  elim: m1 => // m1 IHm1. 
+rewrite -[0 + m1.+1]/(0 + m1).+1 IHm1. by [].
+rewrite -[n1.+1 + m1]/(n1 + m1).+1 IHn1.
+elim: m1 => // m1 IHm1.
+rewrite -[m1.+1 + n1]/(m1 + n1).+1 IHm1.
+by [].
+Qed.
+
+(* 25 page - vverhu 28 *)
 
 
 
