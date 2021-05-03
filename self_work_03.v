@@ -220,12 +220,49 @@ rewrite -[m1.+1 + n1]/(m1 + n1).+1 IHm1.
 by [].
 Qed.
 
+Definition edivn_rec d :=
+  fix loop (m q : nat) {struct m} :=
+    if m - d is m'.+1 then loop m' q.+1 else (q,m).
+
+Definition edivn m d :=
+  if d > 0 then edivn_rec d.-1 m 0 else (0, m).
+
+CoInductive edivn_spec (m d : nat) : nat * nat -> Type :=
+  EdivnSpec :
+    forall q r, m = q * d + r -> (d > 0 -> r < d) ->
+      edivn_spec m d (q, r).
+
 (* 25 page - vverhu 28 *)
+Lemma edivnP : forall m d, edivn_spec m d (edivn m d).
+Proof.
+rewrite /edivn => m [|d] //=;
+  rewrite -{1}[m]/(0 * d.+1 + m).
+elim: m {-2}m 0 (leqnn m) =>
+  [|n IHn] [|m] q //=; rewrite ltnS => le_mn.
+rewrite subn_if_gt; case: ltnP => [// | le_dm].
+rewrite -{1}(subnK le_dm) -addnS addnA.
+rewrite addnAC -mulSnr.
+apply (IHn (m - d) q.+1).
+apply: leq_trans le_mn; exact: leq_subr.
+Qed.
 
-
-
-
-
+Lemma edivn_eq : forall d q r, r < d ->
+  edivn (q * d + r) d = (q, r).
+Proof.
+move=> d q r lt_rd; have d_pos: 0 < d
+  by exact: leq_trans lt_rd.
+case: edivnP lt_rd => q' r'; rewrite d_pos /=.
+wlog: q q' r r' / q <= q' by case (ltnP q q');
+  last symmetry; eauto.
+rewrite leq_eqVlt;
+  case: eqP => [-> _|_] /=; first by move/addnI->.
+rewrite -(leq_pmul2r d_pos);
+  move/leq_add=> Hqr Eqr _; move/Hqr {Hqr}.
+by rewrite addnS ltnNge mulSn -addnA Eqr
+  addnCA addnA leq_addr.
+Qed.
+Eval compute in edivn 7 3.
+Eval compute in edivn (2 * 3 + 1) 3.
 
 
 
