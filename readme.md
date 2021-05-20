@@ -19,3 +19,4 @@ https://ilyasergey.net/pnp/pnp.pdf (see also site)
 -   [Programs and Proofs](https://ilyasergey.net/pnp/)  от Ильи Сергея
 -   [Mathematical Components](https://math-comp.github.io/mcb/)  от Assia Mahboubi и Enrico Tassi
 -   [Шпаргалка по SSReflect](http://www-sop.inria.fr/teams/marelle/advanced-coq-17/cheatsheet.pdf)
+-   [Software Foundations](https://softwarefoundations.cis.upenn.edu/)
